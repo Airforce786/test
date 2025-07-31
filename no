@@ -1156,113 +1156,110 @@ local intro = function()
 end
 
 local create = function()
-	local create = {}
+    local create = {}
 
-	function create:mainbutton(title: string, description: string, func: function)
-		local buttonsample = main_button:Clone()
-		buttonsample.Parent = main_scrollingframe
+    function create:mainbutton(title: string, description: string, func: (...any) -> ())
+        local buttonsample = main_button:Clone()
+        buttonsample.Parent = main_scrollingframe
 
-		buttonsample.title.Text = title or "error"
-		buttonsample.des.Text = description or "error"
+        buttonsample.title.Text = title or "error"
+        buttonsample.des.Text = description or "error"
 
-		buttonsample.click.MouseButton1Click:Connect(function()
-			if func then
-				task.spawn(function()
-					tweenservice:Create(buttonsample.UIStroke, TweenInfo.new(0.1), {Thickness = 1}):Play()
-					task.wait(.2)
-					tweenservice:Create(buttonsample.UIStroke, TweenInfo.new(0.1), {Thickness = 0}):Play()
+        buttonsample.click.MouseButton1Click:Connect(function()
+            if func then
+                task.spawn(function()
+                    tweenservice:Create(buttonsample.UIStroke, TweenInfo.new(0.1), {Thickness = 1}):Play()
+                    task.wait(.2)
+                    tweenservice:Create(buttonsample.UIStroke, TweenInfo.new(0.1), {Thickness = 0}):Play()
+                end)
+                local _, err = pcall(func)
+                if err then
+                    error(err)
+                end
+            end
+        end)
 
-				end)
-				local _,err = pcall(func)
-				if err then
-					error(err)
-				end
-			end
-		end)
+        return buttonsample
+    end
 
-		return buttonsample
-	end
+    function create:maintoggle(title: string, description: string, func: (boolean) -> ())
+        local togglesample = main_toggle:Clone()
+        local addition = {}
+        togglesample.Parent = main_scrollingframe
 
-	function create:maintoggle(title: string, description: string, func: function)
-		local togglesample = main_toggle:Clone()
-		local addition = {}
-		togglesample.Parent = main_scrollingframe
+        togglesample.title.Text = title or "error"
+        togglesample.des.Text = description or "error"
 
-		togglesample.title.Text = title or "error"
-		togglesample.des.Text = description or "error"
+        local toggle = false
+        togglesample.click.MouseButton1Click:Connect(function()
+            toggle = not toggle
+            if func then
+                task.spawn(function()
+                    tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackgroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color3.fromRGB(188, 0, 0)}):Play()
+                    tweenservice:Create(togglesample.UIStroke, TweenInfo.new(.1), {Thickness = 1}):Play()
+                    task.wait(.2)
+                    tweenservice:Create(togglesample.UIStroke, TweenInfo.new(.1), {Thickness = 0}):Play()
+                end)
+                local _, err = pcall(func, toggle)
+                if err then
+                    error(err)
+                end
+            end
+        end)
 
-		local toggle = false
-		togglesample.click.MouseButton1Click:Connect(function()
-			toggle = not toggle
-			if func then
-				task.spawn(function()
-					tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackgroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color3.fromRGB(188, 0, 0)}):Play()
-					tweenservice:Create(togglesample.UIStroke, TweenInfo.new(.1), {Thickness = 1}):Play()
-					task.wait(.2)
-					tweenservice:Create(togglesample.UIStroke, TweenInfo.new(.1), {Thickness = 0}):Play()
-				end)
-				local _,err = pcall(func, toggle)
-				if err then
-					error(err)
-				end
-			end
-		end)
+        function addition:switch(bool)
+            toggle = bool
+            tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackgroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color IfromRGB(188, 0, 0)}):Play()
+        end
 
-		function addition:switch(bool)
-			toggle = bool
-			tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackgroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color3.fromRGB(188, 0, 0)}):Play()
-		end
+        return addition
+    end
 
-		return addition
-	end
+    function create:extrabutton(title: string, func: () -> ())
+        local buttonsample = extra_buton:Clone()
+        buttonsample.Parent = extra_scrollingframe
+        buttonsample.TextLabel.Text = title or "error"
 
-	function create:extrabutton(title: string, func: function)
-		local buttonsample = extra_buton:Clone()
-		buttonsample.Parent = extra_scrollingframe
-		buttonsample.TextLabel.Text = title or "error"
+        buttonsample.Frame.ImageButton.MouseButton1Click:Connect(function()
+            if func then
+                task.spawn(function()
+                    tweenservice:Create(buttonsample.Frame.ImageButton, TweenInfo.new(0.2), {ImageColor3 = Color3.fromRGB(0, 213, 255)}):Play()
+                    task.wait(.2)
+                    tweenservice:Create(buttonsample.Frame.ImageButton, TweenInfo.new(0.2), {ImageColor3 = Color3.fromRGB(255, 255, 255)}):Play()
+                end)
+                local _, err = pcall(func)
+                if err then
+                    error(err)
+                end
+            end
+        end)
+    end
 
-		buttonsample.Frame.ImageButton.MouseButton1Click:Connect(function()
-			if func then
-				task.spawn(function()
-					tweenservice:Create(buttonsample.Frame.ImageButton, TweenInfo.new(0.2), {ImageColor3 = Color3.fromRGB(0, 213, 255)}):Play()
-					task.wait(.2)
-					tweenservice:Create(buttonsample.Frame.ImageButton, TweenInfo.new(0.2), {ImageColor3 = Color3.fromRGB(255, 255, 255)}):Play()
-				end)
-				local _,err = pcall(func)
-				if err then
-					error(err)
-				end
-			end
-		end)
-	end
+    function create:extratoggle(title: string, func: (boolean) -> ())
+        local togglesample = extra_toggle:Clone()
+        local addition = {}
+        togglesample.Parent = extra_scrollingframe
+        togglesample.TextLabel.Text = title or "error"
 
-	function create:extratoggle(title: string, func: function)
-		local togglesample = extra_toggle:Clone()
-		local addition = {}
-		togglesample.Parent = extra_scrollingframe
-		togglesample.TextLabel.Text = title or "error"
+        local toggle = false
+        togglesample.Frame.ImageButton.MouseButton1Click:Connect(function()
+            toggle = not toggle
+            if func then
+                task.spawn(function()
+                    tweenservice:Create(togglesample.Frame.ImageButton, TweenInfo.new(.2), {ImageColor3 = toggle and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(232, 232, 232)}):Play()
+                end)
 
-		local toggle = false
-		togglesample.Frame.ImageButton.MouseButton1Click:Connect(function()
-			toggle = not toggle
-			if func then
-				task.spawn(function()
-					tweenservice:Create(togglesample.Frame.ImageButton, TweenInfo.new(.2), {ImageColor3 = toggle and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(232, 232, 232)}):Play()
-				end)
+                local _, err = pcall(func, toggle)
+                if err then
+                    error(err)
+                end
+            end
+        end)
+    end
 
-				local _,err = pcall(func, toggle)
-				if err then
-					error(err)
-				end
-			end
-		end)
-	end
-
-	return create
+    return create
 end
-
-
 
 intro()
 
-return {create = create,  G2L = G2L["1"]}
+return {create = create, G2L = G2L["1"]}
