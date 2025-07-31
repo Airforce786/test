@@ -1209,7 +1209,7 @@ local create = function()
 
         function addition:switch(bool)
             toggle = bool
-            tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackgroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color3.fromRGB(188, 0, 0)}):Play()
+          tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackgroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color3.fromRGB(188, 0, 0)}):Play()
         end
 
         return addition
