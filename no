@@ -1,15 +1,6 @@
 local G2L = {};
 local core
-
-if game:FindFirstChildOfClass("CoreGui") then
-	if gethui then
-		core = gethui()
-	else
-		core = game:GetService("CoreGui")
-	end
-else
-	core = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
-end
+core = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 
 -- StarterGui.ScreenGui
 G2L["1"] = Instance.new("ScreenGui", core);
@@ -1102,11 +1093,10 @@ network.Frame.togheader.togglebutton.MouseButton1Click:Connect(function()
 	end)
 end)
 
-local minimizebool
+local minimizebool = false
 local minim = function()
-	minimizebool = not minimizebool
-	if minimizebool then
-		icon.Visible = true
+    minimizebool = not minimizebool
+    if minimizebool then
 		icon.UIScale.Scale = 0
 		tweenservice:Create(frame.UIScale, fast, {Scale = 0}):Play()
 		tweenservice:Create(icon.UIScale, fast, {Scale = 1}):Play()
@@ -1168,7 +1158,7 @@ end
 local create = function()
 	local create = {}
 
-	function create:mainbutton(title : TextLabel, description : TextLabel, func)
+	function create:mainbutton(title: string, description: string, func: function)
 		local buttonsample = main_button:Clone()
 		buttonsample.Parent = main_scrollingframe
 
@@ -1193,7 +1183,7 @@ local create = function()
 		return buttonsample
 	end
 
-	function create:maintoggle(title : TextLabel, description : TextLabel, func)
+	function create:maintoggle(title: string, description: string, func: function)
 		local togglesample = main_toggle:Clone()
 		local addition = {}
 		togglesample.Parent = main_scrollingframe
@@ -1220,13 +1210,13 @@ local create = function()
 
 		function addition:switch(bool)
 			toggle = bool
-			tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color3.fromRGB(188, 0, 0)}):Play()
+			tweenservice:Create(togglesample.toggle, TweenInfo.new(.2), {BackgroundColor3 = toggle and Color3.fromRGB(26, 255, 0) or Color3.fromRGB(188, 0, 0)}):Play()
 		end
 
 		return addition
 	end
 
-	function create:extrabutton(title : TextLabel, func)
+	function create:extrabutton(title: string, func: function)
 		local buttonsample = extra_buton:Clone()
 		buttonsample.Parent = extra_scrollingframe
 		buttonsample.TextLabel.Text = title or "error"
@@ -1246,7 +1236,7 @@ local create = function()
 		end)
 	end
 
-	function create:extratoggle(title :TextLabel, func)
+	function create:extratoggle(title: string, func: function)
 		local togglesample = extra_toggle:Clone()
 		local addition = {}
 		togglesample.Parent = extra_scrollingframe
