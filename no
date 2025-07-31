@@ -1100,7 +1100,7 @@ local minim = function()
 		icon.Visible = true
         	icon.UIScale.Scale = 0
         	tweenservice:Create(frame.UIScale, fast, {Scale = 0}):Play()
-        	tweenservice:Create(icon.UIScale, fast, {	al:Play()
+        	tweenservice:Create(icon.UIScale, fast, {Scale = 0}):Play()
         	tweenservice:Create(icon.UIScale, fast, {Scale = 1}):Play()
         	task.wait(.6)
         	frame.Visible = false
